@@ -17,6 +17,7 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore Packages
+      run: cd ./'Sales Date Prediction'
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
