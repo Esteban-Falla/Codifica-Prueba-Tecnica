@@ -1,0 +1,24 @@
+---
+name: Sales Date Prediction Web API CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore Packages
+      run: dotnet restore ./'Sales Date Prediction'/SDP_WebApp/SDP_WebApp.csproj
+    - name: Build
+      run: dotnet build ./'Sales Date Prediction'/SDP_WebApp/SDP_WebApp.csproj --no-restore
+    - name: Test
+      run: dotnet test ./'Sales Date Prediction'/SDP_WebApp --no-build --verbosity normal
