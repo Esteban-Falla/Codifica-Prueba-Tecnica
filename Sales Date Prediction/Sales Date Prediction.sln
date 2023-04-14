@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDP_WebApp", "SDP_WebApp\SDP_WebApp.csproj", "{27BA9A9D-28A4-46EB-9E83-8AF51BC4A758}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27BA9A9D-28A4-46EB-9E83-8AF51BC4A758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27BA9A9D-28A4-46EB-9E83-8AF51BC4A758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27BA9A9D-28A4-46EB-9E83-8AF51BC4A758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27BA9A9D-28A4-46EB-9E83-8AF51BC4A758}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
