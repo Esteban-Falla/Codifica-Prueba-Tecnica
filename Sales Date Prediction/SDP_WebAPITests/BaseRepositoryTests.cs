@@ -1,5 +1,7 @@
 using System.Text;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SDP_WebAPI.Interfaces;
 using SDP_WebAPI.Repositories;
 
@@ -11,6 +13,7 @@ public class BaseRepositoryTests
     private BaseDirectoryImpl testBDI;
     private IConfiguration config;
     private string testConnStr;
+    private Mock<ILogger> loggerMock;
 
     [SetUp]
     public void Setup()
@@ -26,8 +29,9 @@ public class BaseRepositoryTests
         var builder = new ConfigurationBuilder();
         builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
         config = builder.Build();
+        loggerMock = new Mock<ILogger>();
         
-        testBDI = new BaseDirectoryImpl(config);
+        testBDI = new BaseDirectoryImpl(config,loggerMock.Object);
     }
 
     [TearDown]
@@ -41,7 +45,7 @@ public class BaseRepositoryTests
     [Test]
     public void TestBaseRepositoryConstructor()
     {
-        var sut = new BaseDirectoryImpl(config);
+        var sut = new BaseDirectoryImpl(config,loggerMock.Object);
 
         Assert.Multiple(() =>
         {
@@ -119,15 +123,43 @@ public class BaseRepositoryTests
     {
         public string ConnStr { get; }
 
-        public BaseDirectoryImpl(IConfiguration config) : base(config)
+        public BaseDirectoryImpl(IConfiguration config, ILogger logger) : base(config,logger)
         {
             ConnStr = config.GetConnectionString("SalesDB");
         }
 
         public bool Validate(params object[] args) => ValidateParams(args);
+        public override Task<IEnumerable<TestElement>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<TestElement> GetById(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<int> Add(TestElement element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<TestElement> Update(TestElement element)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<int> Delete(TestElement element)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     private class TestElement : IElement
     {
+        public static IElement FromADOReader(SqlDataReader reader)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

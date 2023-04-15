@@ -27,7 +27,13 @@ internal class TSQLQueries
 	    p.productname [Productname]
         FROM Production.Products p;";
 
-    public const string AddOrderQuery = @"[Sales].[AddOrder]"; 
+    public const string AddOrderQuery = @"[Sales].[AddOrder]";
+
+    public const string GetSalePredictions = @"SELECT 
+        CustomerName, 
+        LastOrderDate, 
+        NextPredictedOrder
+        FROM Sales.LastAndNextOrderDate;";
 
     public static string GetOrdersByCustomerIdQuery(int Id)
     {

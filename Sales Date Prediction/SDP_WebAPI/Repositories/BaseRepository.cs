@@ -3,9 +3,10 @@ using SDP_WebAPI.Interfaces;
 namespace SDP_WebAPI.Repositories;
 
 public abstract class BaseRepository<T> : IRepository<T>
-    where T : IElement, new()
+    where T : IElement
 {
-    private string connectionString { get; }
+    protected string connectionString { get; private set; }
+    protected ILogger logger;
 
     protected virtual string getAllQuery { get; }
     protected virtual string getByIdQuery { get; }
@@ -13,35 +14,21 @@ public abstract class BaseRepository<T> : IRepository<T>
     protected virtual string updateElementQuery { get; }
     protected virtual string deleteElementQuery { get; }
 
-    protected BaseRepository(IConfiguration config)
+    protected BaseRepository(IConfiguration config, ILogger logger)
     {
         connectionString = config.GetConnectionString("SalesDB");
+        this.logger = logger;
     }
 
-    public virtual Task<IEnumerable<T>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract Task<IEnumerable<T>> GetAll();
 
-    public virtual Task<T> GetById(object id)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract Task<T> GetById(object id);
 
-    public virtual Task<int> Add(T element)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract Task<int> Add(T element);
 
-    public virtual Task<T> Update(T element)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract Task<T> Update(T element);
 
-    public virtual Task<int> Delete(T element)
-    {
-        throw new NotImplementedException();
-    }
+    public abstract Task<int> Delete(T element);
 
     protected virtual bool ValidateParams(params object[] Args)
     {

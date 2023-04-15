@@ -1,7 +1,7 @@
 namespace SDP_WebAPI.Interfaces;
 
 public interface IRepository<T>
-    where T : IElement, new()
+    where T : IElement
 {
     public Task<IEnumerable<T>> GetAll();
     public Task<T> GetById(object id);
