@@ -30,8 +30,8 @@ public class BaseRepositoryTests
         builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
         config = builder.Build();
         loggerMock = new Mock<ILogger>();
-        
-        testBDI = new BaseDirectoryImpl(config,loggerMock.Object);
+
+        testBDI = new BaseDirectoryImpl(config, loggerMock.Object);
     }
 
     [TearDown]
@@ -45,12 +45,12 @@ public class BaseRepositoryTests
     [Test]
     public void TestBaseRepositoryConstructor()
     {
-        var sut = new BaseDirectoryImpl(config,loggerMock.Object);
+        var sut = new BaseDirectoryImpl(config, loggerMock.Object);
 
         Assert.Multiple(() =>
         {
             Assert.IsNotNull(sut);
-            StringAssert.AreEqualIgnoringCase(testConnStr,sut.ConnStr);
+            StringAssert.AreEqualIgnoringCase(testConnStr, sut.ConnStr);
         });
     }
 
@@ -94,26 +94,29 @@ public class BaseRepositoryTests
 
     [Test]
     [TestCaseSource(nameof(_validateParamsTestCases))]
-    public void TestValidateParams(bool expResult,object[] args)
+    public void TestValidateParams(bool expResult, object[] args)
     {
         var expectedResult = expResult;
 
         testBDI.Validate(args);
     }
-    
+
     private static object[] _validateParamsTestCases = new object[]
     {
-        new object[]{
+        new object[]
+        {
             false,
-            new object[] {null,1},
+            new object[] { null, 1 },
         },
-        new object[]{
+        new object[]
+        {
             false,
-            new object[] {1,5,null},
+            new object[] { 1, 5, null },
         },
-        new object[]{
+        new object[]
+        {
             true,
-            new object[] {1,3,5,7},
+            new object[] { 1, 3, 5, 7 },
         },
     };
 
@@ -121,12 +124,13 @@ public class BaseRepositoryTests
     {
         public string ConnStr { get; }
 
-        public BaseDirectoryImpl(IConfiguration config, ILogger logger) : base(config,logger)
+        public BaseDirectoryImpl(IConfiguration config, ILogger logger) : base(config, logger)
         {
             ConnStr = config.GetConnectionString("SalesDB");
         }
 
         public void Validate(params object[] args) => ValidateParams(args);
+
         public override Task<IEnumerable<TestElement>> GetAll()
         {
             throw new NotImplementedException();
@@ -155,7 +159,8 @@ public class BaseRepositoryTests
 
     private class TestElement : IElement
     {
-        public static IElement FromADOReader(SqlDataReader reader)
+        public static T FromADOReader<T>(SqlDataReader reader)
+            where T : IElement
         {
             throw new NotImplementedException();
         }

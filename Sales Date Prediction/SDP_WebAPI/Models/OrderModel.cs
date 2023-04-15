@@ -36,9 +36,10 @@ public class OrderModel : IElement
     {
     }
 
-    public static IElement FromADOReader(SqlDataReader reader)
+    public static T FromADOReader<T>(SqlDataReader reader)
+    where T : IElement
     {
-        return new OrderModel()
+        var result = new OrderModel()
         {
             Id = reader.GetInt32(
                 reader.GetOrdinal("Orderid")),
@@ -53,5 +54,6 @@ public class OrderModel : IElement
             City = reader.GetString(
                 reader.GetOrdinal("Shipcity"))
         };
+        return (T)Convert.ChangeType(result, typeof(T));
     }
 }

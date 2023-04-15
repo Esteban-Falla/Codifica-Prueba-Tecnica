@@ -40,7 +40,7 @@ public class OrderRepository:BaseRepository<OrderModel>
                 results = new List<OrderModel>();
                 while (await reader.ReadAsync())
                 {
-                    results.Add((OrderModel)OrderModel.FromADOReader(reader));
+                    results.Add(OrderModel.FromADOReader<OrderModel>(reader));
                 }
             }
             

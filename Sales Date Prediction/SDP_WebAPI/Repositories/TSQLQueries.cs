@@ -1,6 +1,6 @@
 namespace SDP_WebAPI.Repositories;
 
-internal class TSQLQueries
+internal static class TSQLQueries
 {
     private const string GetOrdersByCustIdQuery = @"SELECT 
         o.orderid [Orderid],
@@ -37,6 +37,6 @@ internal class TSQLQueries
 
     public static string GetOrdersByCustomerIdQuery(int Id)
     {
-        return string.Format(GetOrdersByCustIdQuery,Id);
+        return string.Format(GetOrdersByCustIdQuery, Id);
     }
 }

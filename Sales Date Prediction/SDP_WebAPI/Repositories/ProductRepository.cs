@@ -4,35 +4,34 @@ using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
-public class SalePredictionRepository : BaseRepository<SalePredictionModel>
+public class ProductRepository : BaseRepository<ProductModel>
 {
-    public SalePredictionRepository(IConfiguration config, ILogger logger) : base(config, logger)
+    public ProductRepository(IConfiguration config, ILogger logger) : base(config, logger)
     {
     }
 
-    public override async Task<IEnumerable<SalePredictionModel>> GetAll()
+    public override async Task<IEnumerable<ProductModel>> GetAll()
     {
         await using var connection = new SqlConnection(connectionString);
-        await using var command = new SqlCommand(TSQLQueries.GetSalePredictions, connection);
+        await using var command = new SqlCommand(TSQLQueries.GetEmployeesQuery, connection);
+
         try
         {
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
-            List<SalePredictionModel> results = null;
+            List<ProductModel> result = null;
 
             if (reader.HasRows)
             {
-                results = new List<SalePredictionModel>();
+                result = new List<ProductModel>();
                 while (await reader.ReadAsync())
                 {
-                    results.Add(SalePredictionModel.FromADOReader<SalePredictionModel>(reader));
+                    result.Add(ProductModel.FromADOReader<ProductModel>(reader));
                 }
             }
 
-            reader.CloseAsync();
-            connection.CloseAsync();
-
-            return results;
+            await connection.CloseAsync();
+            return result;
         }
         catch (Exception e)
         {
@@ -44,22 +43,22 @@ public class SalePredictionRepository : BaseRepository<SalePredictionModel>
         }
     }
 
-    public override async Task<SalePredictionModel> GetById(object id)
+    public override async Task<ProductModel> GetById(object id)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<int> Add(SalePredictionModel element)
+    public override async Task<int> Add(ProductModel element)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<SalePredictionModel> Update(SalePredictionModel element)
+    public override async Task<ProductModel> Update(ProductModel element)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<int> Delete(SalePredictionModel element)
+    public override async Task<int> Delete(ProductModel element)
     {
         throw new NotImplementedException();
     }

@@ -4,5 +4,5 @@ namespace SDP_WebAPI.Interfaces;
 
 public interface IElement
 {
-    public static abstract IElement FromADOReader(SqlDataReader reader);
+    public static abstract T FromADOReader<T>(SqlDataReader reader) where T : IElement;
 }

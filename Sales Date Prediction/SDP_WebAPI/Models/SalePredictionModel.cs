@@ -23,13 +23,15 @@ public class SalePredictionModel : IElement
     {
     }
 
-    public static IElement FromADOReader(SqlDataReader reader)
+    public static T FromADOReader<T>(SqlDataReader reader)
+    where T:IElement
     {
-        return new SalePredictionModel()
+        var result = new SalePredictionModel()
         {
             Name = reader.GetString(0),
             LastOrderDate = reader.GetDateTime(1),
             PredictedOrderDate = reader.GetDateTime(2)
         };
+        return (T)Convert.ChangeType(result, typeof(T));
     }
 }
