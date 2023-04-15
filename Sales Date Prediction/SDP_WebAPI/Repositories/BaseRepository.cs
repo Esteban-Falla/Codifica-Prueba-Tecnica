@@ -1,7 +1,6 @@
-using System.Formats.Asn1;
 using SDP_WebAPI.Interfaces;
 
-namespace SDP_WebAPI.Models;
+namespace SDP_WebAPI.Repositories;
 
 public abstract class BaseRepository<T> : IRepository<T>
     where T : IElement, new()

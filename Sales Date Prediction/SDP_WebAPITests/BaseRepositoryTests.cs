@@ -1,10 +1,9 @@
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using SDP_WebAPI.Interfaces;
+using SDP_WebAPI.Repositories;
 
 namespace SDP_WebAPITests;
-
-using SDP_WebAPI.Models;
 
 [TestFixture]
 public class BaseRepositoryTests
