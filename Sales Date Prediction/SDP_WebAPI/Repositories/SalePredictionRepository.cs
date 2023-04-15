@@ -4,13 +4,13 @@ using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
-public class SalePredictionRepository : BaseRepository<SalePrediction>
+public class SalePredictionRepository : BaseRepository<SalePredictionModel>
 {
     public SalePredictionRepository(IConfiguration config, ILogger logger) : base(config, logger)
     {
     }
 
-    public override async Task<IEnumerable<SalePrediction>> GetAll()
+    public override async Task<IEnumerable<SalePredictionModel>> GetAll()
     {
         await using var connection = new SqlConnection(connectionString);
         await using var command = new SqlCommand(TSQLQueries.GetSalePredictions, connection);
@@ -18,14 +18,14 @@ public class SalePredictionRepository : BaseRepository<SalePrediction>
         {
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
-            List<SalePrediction> results = null;
+            List<SalePredictionModel> results = null;
 
             if (reader.HasRows)
             {
-                results = new List<SalePrediction>();
+                results = new List<SalePredictionModel>();
                 while (await reader.ReadAsync())
                 {
-                    results.Add((SalePrediction)SalePrediction.FromADOReader(reader));
+                    results.Add((SalePredictionModel)SalePredictionModel.FromADOReader(reader));
                 }
             }
 
@@ -44,22 +44,22 @@ public class SalePredictionRepository : BaseRepository<SalePrediction>
         }
     }
 
-    public override async Task<SalePrediction> GetById(object id)
+    public override async Task<SalePredictionModel> GetById(object id)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<int> Add(SalePrediction element)
+    public override async Task<int> Add(SalePredictionModel element)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<SalePrediction> Update(SalePrediction element)
+    public override async Task<SalePredictionModel> Update(SalePredictionModel element)
     {
         throw new NotImplementedException();
     }
 
-    public override async Task<int> Delete(SalePrediction element)
+    public override async Task<int> Delete(SalePredictionModel element)
     {
         throw new NotImplementedException();
     }

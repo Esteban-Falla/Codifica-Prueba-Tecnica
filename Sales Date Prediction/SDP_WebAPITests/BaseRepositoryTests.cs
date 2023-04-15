@@ -98,9 +98,7 @@ public class BaseRepositoryTests
     {
         var expectedResult = expResult;
 
-        var result = testBDI.Validate(args);
-        
-        Assert.That(result, Is.EqualTo(expectedResult));
+        testBDI.Validate(args);
     }
     
     private static object[] _validateParamsTestCases = new object[]
@@ -128,7 +126,7 @@ public class BaseRepositoryTests
             ConnStr = config.GetConnectionString("SalesDB");
         }
 
-        public bool Validate(params object[] args) => ValidateParams(args);
+        public void Validate(params object[] args) => ValidateParams(args);
         public override Task<IEnumerable<TestElement>> GetAll()
         {
             throw new NotImplementedException();

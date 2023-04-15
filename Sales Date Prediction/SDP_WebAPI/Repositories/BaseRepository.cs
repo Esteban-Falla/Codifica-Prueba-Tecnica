@@ -30,15 +30,13 @@ public abstract class BaseRepository<T> : IRepository<T>
 
     public abstract Task<int> Delete(T element);
 
-    protected virtual bool ValidateParams(params object[] Args)
+    protected virtual void ValidateParams(params object[] Args)
     {
         foreach (var arg in Args)
         {
             if (arg != null)
                 continue;
-            return false;
+            throw new ArgumentException(nameof(arg));
         }
-
-        return true;
     }
 }

@@ -5,22 +5,27 @@ using SDP_WebAPI.Interfaces;
 
 namespace SDP_WebAPI.Models;
 
-public class SalePrediction:IElement
+public class SalePredictionModel : IElement
 {
     [Required]
     [JsonPropertyName("CustomerName")]
     public string Name { get; init; }
+
     [Required]
     [JsonPropertyName("LastOrderDate")]
     public DateTime LastOrderDate { get; init; }
+
     [Required]
     [JsonPropertyName("NextPredictedOrder")]
-    public DateTime PredictedOrderDate { get;  init; }
-    private SalePrediction(){}
+    public DateTime PredictedOrderDate { get; init; }
+
+    private SalePredictionModel()
+    {
+    }
 
     public static IElement FromADOReader(SqlDataReader reader)
     {
-        return new SalePrediction()
+        return new SalePredictionModel()
         {
             Name = reader.GetString(0),
             LastOrderDate = reader.GetDateTime(1),
