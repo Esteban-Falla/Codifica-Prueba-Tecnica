@@ -15,7 +15,7 @@ public class BaseRepositoryTests
     private BaseDirectoryImpl testBDI;
     private IOptions<DatabaseOptions> options;
     private string testConnStr;
-    private Mock<ILogger> loggerMock;
+    private Mock<ILogger<TestElement>> loggerMock;
 
     [SetUp]
     public void Setup()
@@ -25,7 +25,7 @@ public class BaseRepositoryTests
         {
             ConnectionString = testConnStr
         });
-        loggerMock = new Mock<ILogger>();
+        loggerMock = new Mock<ILogger<TestElement>>();
 
         testBDI = new BaseDirectoryImpl(options, loggerMock.Object);
     }
@@ -120,11 +120,11 @@ public class BaseRepositoryTests
         },
     };
 
-    private class BaseDirectoryImpl : BaseRepository<TestElement>
+    public class BaseDirectoryImpl : BaseRepository<TestElement>
     {
         public string ConnStr { get; }
 
-        public BaseDirectoryImpl(IOptions<DatabaseOptions> databaseOptions, ILogger logger)
+        public BaseDirectoryImpl(IOptions<DatabaseOptions> databaseOptions, ILogger<TestElement> logger)
             : base(databaseOptions, logger)
         {
             ConnStr = databaseOptions.Value.ConnectionString;
@@ -158,7 +158,7 @@ public class BaseRepositoryTests
         }
     }
 
-    private class TestElement : IElement
+    public class TestElement : IElement
     {
         public static T FromADOReader<T>(SqlDataReader reader)
             where T : IElement

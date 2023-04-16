@@ -1,21 +1,25 @@
 namespace SDP_WebAPI.Controllers;
 
-[ApiController]
-[Route("Shippers")]
 public class ShipperController : BaseController<ShipperModel>
 {
-    public ShipperController(ILogger logger, IRepository<ShipperModel> repository)
+    public ShipperController(ILogger<IRepository<ShipperModel>> logger, IRepository<ShipperModel> repository)
         : base(logger, repository)
     {
     }
 
     // GET
     [HttpGet]
-    [Route("")]
-    [Route("Index")]
-    public async Task<IEnumerable<ShipperModel>> Get()
+    [Produces("application/json", Type = typeof(IEnumerable<ShipperModel>))]
+    public async Task<ActionResult<IEnumerable<ShipperModel>>> Get()
     {
         _logger.LogInformation(nameof(Get));
-        return await _repository.GetAll();
+
+        var result = await _repository.GetAll();
+
+        if (result != null)
+            return Ok(result);
+
+        _logger.LogInformation("No shippers found");
+        return NotFound();
     }
 }

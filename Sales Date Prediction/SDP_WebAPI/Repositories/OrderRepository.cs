@@ -4,7 +4,8 @@ namespace SDP_WebAPI.Repositories;
 
 public class OrderRepository : BaseRepository<OrderModel>, IOrderRepository
 {
-    public OrderRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
+    public OrderRepository(IOptions<DatabaseOptions> databaseOptions, ILogger<OrderModel> logger)
+        : base(databaseOptions, logger)
     {
     }
 

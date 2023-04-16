@@ -4,7 +4,8 @@ namespace SDP_WebAPI.Repositories;
 
 public class ProductRepository : BaseRepository<ProductModel>
 {
-    public ProductRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
+    public ProductRepository(IOptions<DatabaseOptions> databaseOptions, ILogger<ProductModel> logger)
+        : base(databaseOptions, logger)
     {
     }
 

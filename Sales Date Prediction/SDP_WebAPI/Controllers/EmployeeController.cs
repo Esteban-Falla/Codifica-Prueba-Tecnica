@@ -1,21 +1,24 @@
 namespace SDP_WebAPI.Controllers;
 
-[ApiController]
-[Route("Employee")]
 public class EmployeeController : BaseController<EmployeeModel>
 {
-    public EmployeeController(ILogger logger, IRepository<EmployeeModel> repository)
+    public EmployeeController(ILogger<IRepository<EmployeeModel>> logger, IRepository<EmployeeModel> repository)
         : base(logger, repository)
     {
     }
 
     // GET
     [HttpGet]
-    [Route("")]
-    [Route("Index")]
-    public async Task<IEnumerable<EmployeeModel>> Get()
+    [Produces("application/json", Type = typeof(IEnumerable<EmployeeModel>))]
+    public async Task<ActionResult<IEnumerable<EmployeeModel>>> Get()
     {
         _logger.LogInformation(nameof(Get));
-        return await _repository.GetAll();
+        var result = await _repository.GetAll();
+
+        if (result != null)
+            return Ok(result);
+
+        _logger.LogInformation("No Employees found");
+        return NotFound();
     }
 }

@@ -1,12 +1,14 @@
 namespace SDP_WebAPI.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public abstract class BaseController<T> : ControllerBase
     where T : IElement
 {
-    private protected readonly ILogger _logger;
+    private protected readonly ILogger<IRepository<T>> _logger;
     private protected readonly IRepository<T> _repository;
 
-    protected BaseController(ILogger logger, IRepository<T> repository)
+    protected BaseController(ILogger<IRepository<T>> logger, IRepository<T> repository)
     {
         _logger = logger ?? throw new ArgumentNullException("logger");
         _repository = repository ?? throw new ArgumentNullException("repository");

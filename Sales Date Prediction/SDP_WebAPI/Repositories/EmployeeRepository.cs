@@ -4,7 +4,8 @@ namespace SDP_WebAPI.Repositories;
 
 public class EmployeeRepository : BaseRepository<EmployeeModel>
 {
-    public EmployeeRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
+    public EmployeeRepository(IOptions<DatabaseOptions> databaseOptions, ILogger<EmployeeModel> logger)
+        : base(databaseOptions, logger)
     {
     }
 

@@ -1,12 +1,11 @@
-using Microsoft.Extensions.Options;
-using SDP_WebAPI.Interfaces;
-using SDP_WebAPI.Models;
 using SDP_WebAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add logging service
+builder.Services.AddLogging();
 
+// Add services to the container.
 builder.Services
     .Configure<DatabaseOptions>(builder.Configuration.GetSection("DatabaseConnections:SalesDB"))
     .AddScoped<IOrderRepository, OrderRepository>()

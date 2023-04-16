@@ -4,7 +4,7 @@ namespace SDP_WebAPI.Repositories;
 
 public class SalesPredictionRepository : BaseRepository<SalePredictionModel>
 {
-    public SalesPredictionRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger)
+    public SalesPredictionRepository(IOptions<DatabaseOptions> databaseOptions, ILogger<SalePredictionModel> logger)
         : base(databaseOptions, logger)
     {
     }

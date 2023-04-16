@@ -1,22 +1,26 @@
 namespace SDP_WebAPI.Controllers;
 
-[ApiController]
-[Route("Sales")]
 public class SalesPredictionController : BaseController<SalePredictionModel>
 {
-    public SalesPredictionController(ILogger logger, IRepository<SalePredictionModel> repository)
+    public SalesPredictionController(ILogger<IRepository<SalePredictionModel>> logger,
+        IRepository<SalePredictionModel> repository)
         : base(logger, repository)
     {
     }
 
     // GET
     [HttpGet]
-    [Route("")]
-    [Route("Index")]
-    [Route("Prediction")]
-    public async Task<IEnumerable<SalePredictionModel>> Get()
+    [Produces("application/json", Type = typeof(IEnumerable<SalePredictionModel>))]
+    public async Task<ActionResult<IEnumerable<SalePredictionModel>>> Get()
     {
         _logger.LogInformation(nameof(Get));
-        return await _repository.GetAll();
+
+        var result = await _repository.GetAll();
+
+        if (result != null)
+            return Ok(result);
+
+        _logger.LogInformation("No sales prediction found");
+        return NotFound();
     }
 }

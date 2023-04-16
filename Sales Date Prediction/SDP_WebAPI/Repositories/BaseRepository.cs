@@ -4,7 +4,7 @@ public abstract class BaseRepository<T> : IRepository<T>
     where T : IElement
 {
     protected string connectionString { get; private set; }
-    protected ILogger logger;
+    protected ILogger<T> logger;
 
     protected virtual string getAllQuery { get; }
     protected virtual string getByIdQuery { get; }
@@ -12,7 +12,7 @@ public abstract class BaseRepository<T> : IRepository<T>
     protected virtual string updateElementQuery { get; }
     protected virtual string deleteElementQuery { get; }
 
-    protected BaseRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger)
+    protected BaseRepository(IOptions<DatabaseOptions> databaseOptions, ILogger<T> logger)
     {
         connectionString = databaseOptions.Value.ConnectionString;
         this.logger = logger;

@@ -8,14 +8,14 @@ namespace SDP_WebAPITests;
 [TestFixture]
 public class BaseControllerTests
 {
-    private Mock<ILogger> loggerMock;
+    private Mock<ILogger<IRepository<ElementImpl>>> loggerMock;
     private Mock<IRepository<ElementImpl>> repositoryMock;
     private BaseCtrlImpl controller;
 
     [SetUp]
     public void SetUp()
     {
-        loggerMock = new Mock<ILogger>();
+        loggerMock = new Mock<ILogger<IRepository<ElementImpl>>>();
         repositoryMock = new Mock<IRepository<ElementImpl>>();
     }
 
@@ -30,7 +30,7 @@ public class BaseControllerTests
     [Test]
     public void TestConstructorNullLogger()
     {
-        ILogger logger = null;
+        ILogger<IRepository<ElementImpl>> logger = null;
 
         Assert.Throws<ArgumentNullException>(() => new BaseCtrlImpl(logger, repositoryMock.Object));
     }
@@ -93,7 +93,7 @@ public class BaseControllerTests
 
     public class BaseCtrlImpl : BaseController<ElementImpl>
     {
-        public BaseCtrlImpl(ILogger logger, IRepository<ElementImpl> repository)
+        public BaseCtrlImpl(ILogger<IRepository<ElementImpl>> logger, IRepository<ElementImpl> repository)
             : base(logger, repository)
         {
         }
