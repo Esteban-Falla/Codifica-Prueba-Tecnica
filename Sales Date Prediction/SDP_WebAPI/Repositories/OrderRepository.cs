@@ -1,12 +1,10 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
-using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
-public class OrderRepository:BaseRepository<OrderModel>
+public class OrderRepository : BaseRepository<OrderModel>, IOrderRepository
 {
-    public OrderRepository(IConfiguration config, ILogger logger) : base(config, logger)
+    public OrderRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
     {
     }
 
@@ -43,7 +41,7 @@ public class OrderRepository:BaseRepository<OrderModel>
                     results.Add(OrderModel.FromADOReader<OrderModel>(reader));
                 }
             }
-            
+
             reader.CloseAsync();
             connection.CloseAsync();
             return results;

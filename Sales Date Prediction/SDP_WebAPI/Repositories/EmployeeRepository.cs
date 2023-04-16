@@ -1,12 +1,10 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
-using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
 public class EmployeeRepository : BaseRepository<EmployeeModel>
 {
-    public EmployeeRepository(IConfiguration config, ILogger logger) : base(config, logger)
+    public EmployeeRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
     {
     }
 

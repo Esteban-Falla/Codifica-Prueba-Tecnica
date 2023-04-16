@@ -1,5 +1,3 @@
-using SDP_WebAPI.Interfaces;
-
 namespace SDP_WebAPI.Repositories;
 
 public abstract class BaseRepository<T> : IRepository<T>
@@ -14,9 +12,9 @@ public abstract class BaseRepository<T> : IRepository<T>
     protected virtual string updateElementQuery { get; }
     protected virtual string deleteElementQuery { get; }
 
-    protected BaseRepository(IConfiguration config, ILogger logger)
+    protected BaseRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger)
     {
-        connectionString = config.GetConnectionString("SalesDB");
+        connectionString = databaseOptions.Value.ConnectionString;
         this.logger = logger;
     }
 
@@ -32,11 +30,12 @@ public abstract class BaseRepository<T> : IRepository<T>
 
     protected virtual void ValidateParams(params object[] Args)
     {
+        logger.LogInformation($"{nameof(ValidateParams)}");
         foreach (var arg in Args)
         {
             if (arg != null)
                 continue;
-            throw new ArgumentException(nameof(arg));
+            throw new ArgumentNullException();
         }
     }
 }

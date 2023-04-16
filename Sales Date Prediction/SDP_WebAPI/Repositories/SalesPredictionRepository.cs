@@ -1,12 +1,11 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
-using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
-public class SalePredictionRepository : BaseRepository<SalePredictionModel>
+public class SalesPredictionRepository : BaseRepository<SalePredictionModel>
 {
-    public SalePredictionRepository(IConfiguration config, ILogger logger) : base(config, logger)
+    public SalesPredictionRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger)
+        : base(databaseOptions, logger)
     {
     }
 

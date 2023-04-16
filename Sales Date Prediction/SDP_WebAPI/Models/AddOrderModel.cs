@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace SDP_WebAPI.Models;
 
 public class AddOrderModel : OrderModel

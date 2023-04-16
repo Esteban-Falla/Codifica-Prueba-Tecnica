@@ -1,12 +1,10 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
-using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
 public class ProductRepository : BaseRepository<ProductModel>
 {
-    public ProductRepository(IConfiguration config, ILogger logger) : base(config, logger)
+    public ProductRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
     {
     }
 

@@ -1,9 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using System.Text.Json.Serialization;
-using Microsoft.Data.SqlClient;
-using SDP_WebAPI.Interfaces;
-
 namespace SDP_WebAPI.Models;
 
 public class EmployeeModel : IElement

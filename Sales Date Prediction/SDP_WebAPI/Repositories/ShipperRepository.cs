@@ -1,12 +1,13 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 using SDP_WebAPI.Models;
 
 namespace SDP_WebAPI.Repositories;
 
 public class ShipperRepository : BaseRepository<ShipperModel>
 {
-    public ShipperRepository(IConfiguration config, ILogger logger) : base(config, logger)
+    public ShipperRepository(IOptions<DatabaseOptions> databaseOptions, ILogger logger) : base(databaseOptions, logger)
     {
     }
 

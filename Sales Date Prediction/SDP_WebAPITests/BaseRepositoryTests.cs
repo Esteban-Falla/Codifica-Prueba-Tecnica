@@ -2,7 +2,9 @@ using System.Text;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SDP_WebAPI.Interfaces;
+using SDP_WebAPI.Models;
 using SDP_WebAPI.Repositories;
 
 namespace SDP_WebAPITests;
@@ -11,7 +13,7 @@ namespace SDP_WebAPITests;
 public class BaseRepositoryTests
 {
     private BaseDirectoryImpl testBDI;
-    private IConfiguration config;
+    private IOptions<DatabaseOptions> options;
     private string testConnStr;
     private Mock<ILogger> loggerMock;
 
@@ -19,33 +21,27 @@ public class BaseRepositoryTests
     public void Setup()
     {
         testConnStr = "Some connection string";
-
-        var appSettings = $@"{{
-            ""ConnectionStrings"":{{
-                ""SalesDB"":""{testConnStr}""
-                }}
-            }}";
-
-        var builder = new ConfigurationBuilder();
-        builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
-        config = builder.Build();
+        options = new OptionsWrapper<DatabaseOptions>(new DatabaseOptions()
+        {
+            ConnectionString = testConnStr
+        });
         loggerMock = new Mock<ILogger>();
 
-        testBDI = new BaseDirectoryImpl(config, loggerMock.Object);
+        testBDI = new BaseDirectoryImpl(options, loggerMock.Object);
     }
 
     [TearDown]
     public void TearDown()
     {
         testBDI = null;
-        config = null;
+        options = null;
         testConnStr = null;
     }
 
     [Test]
     public void TestBaseRepositoryConstructor()
     {
-        var sut = new BaseDirectoryImpl(config, loggerMock.Object);
+        var sut = new BaseDirectoryImpl(options, loggerMock.Object);
 
         Assert.Multiple(() =>
         {
@@ -94,28 +90,32 @@ public class BaseRepositoryTests
 
     [Test]
     [TestCaseSource(nameof(_validateParamsTestCases))]
-    public void TestValidateParams(bool expResult, object[] args)
+    public void TestValidateParams(bool throwsException, object[] args)
     {
-        var expectedResult = expResult;
+        if (throwsException)
+        {
+            Assert.Throws<ArgumentNullException>(() => testBDI.Validate(args));
+            return;
+        }
 
-        testBDI.Validate(args);
+        Assert.DoesNotThrow(() => testBDI.Validate(args));
     }
 
     private static object[] _validateParamsTestCases = new object[]
     {
         new object[]
         {
-            false,
+            true,
             new object[] { null, 1 },
         },
         new object[]
         {
-            false,
+            true,
             new object[] { 1, 5, null },
         },
         new object[]
         {
-            true,
+            false,
             new object[] { 1, 3, 5, 7 },
         },
     };
@@ -124,9 +124,10 @@ public class BaseRepositoryTests
     {
         public string ConnStr { get; }
 
-        public BaseDirectoryImpl(IConfiguration config, ILogger logger) : base(config, logger)
+        public BaseDirectoryImpl(IOptions<DatabaseOptions> databaseOptions, ILogger logger)
+            : base(databaseOptions, logger)
         {
-            ConnStr = config.GetConnectionString("SalesDB");
+            ConnStr = databaseOptions.Value.ConnectionString;
         }
 
         public void Validate(params object[] args) => ValidateParams(args);
